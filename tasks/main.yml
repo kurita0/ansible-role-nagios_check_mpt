@@ -1,0 +1,23 @@
+---
+- name: Install p5-Nagios-Plugin
+  pkgng: name={{ item }} state=present
+  with_items:
+    - p5-Nagios-Plugin
+
+- name: Get check_mpt
+  get_url:
+    url: https://raw.githubusercontent.com/trombik/reallyenglish-nagios-plugins/master/src/check_mpt/check_mpt
+    dest: /usr/local/libexec/nagios/check_mpt
+    force: no
+    mode: 0555
+
+- name: Apply patch to check_mpt
+  patch:
+    src: check_mpt.patch
+    dest: /usr/local/libexec/nagios/check_mpt
+
+- name: Set sudoers.d check_mpt
+  copy: src=sudoers_check_mpt dest=/usr/local/etc/sudoers.d/check_mpt mode=0644
+
+- template: src=check_mpt.cfg.j2 dest=/usr/local/etc/nrpe.d/check_mpt.cfg mode=0644 backup=yes
+  notify: restart nrpe3

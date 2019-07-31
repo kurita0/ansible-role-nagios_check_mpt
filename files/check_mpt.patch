@@ -1,0 +1,17 @@
+--- check_mpt.orig	2019-07-31 13:25:21.769160000 +0900
++++ check_mpt	2019-07-31 14:23:23.678486000 +0900
+@@ -1,4 +1,4 @@
+-#!/usr/bin/perl
++#!/usr/local/bin/perl
+ 
+ use strict;
+ use warnings;
+@@ -32,7 +32,7 @@
+ 
+ sub check_mpt {
+     my $cmd = can_run('mptutil');
+-    my $sudo = can_run('sudo');
++    my $sudo = can_run('/usr/local/bin/sudo');
+     nagios_exit( UNKNOWN, 'cannot execute mptutil' ) unless $cmd;
+     nagios_exit( UNKNOWN, 'cannot execute sudo' ) unless $sudo;
+ 
